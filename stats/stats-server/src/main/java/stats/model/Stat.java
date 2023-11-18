@@ -3,7 +3,8 @@ package stats.model;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-@Data
+@Getter
+@Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
 public class Stat {
