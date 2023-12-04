@@ -19,7 +19,7 @@ public class ErrorHandler {
     @ExceptionHandler({UserNotFoundException.class, RequestNotFoundException.class, EventNotFoundException.class,
             CompilationNotFoundException.class, LocationNotFoundException.class, CategoryNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ApiError NotFoundException(final Exception e) {
+    public ApiError handleNotFoundException(final Exception e) {
         log.warn("{}!, {}", e.getClass().getSimpleName(), e.getMessage());
         return new ApiError(HttpStatus.NOT_FOUND, "The required object was not found.",
                 e.getMessage(), LocalDateTime.now());
