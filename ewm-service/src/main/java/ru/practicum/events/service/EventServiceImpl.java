@@ -308,6 +308,22 @@ public class EventServiceImpl implements EventService {
         } else {
             events = eventRepository.findAll(pageable).toList();
         }
+//        Первый вариант
+//        List<Long> eventIds = events.stream()
+//                .map(Event::getId)
+//                .collect(Collectors.toList());
+//
+//        Map<Long, Integer> viewsMap = viewsCountList(eventIds);
+//
+//        for (Event event : events) {
+//            event.setViews(viewsMap.get(event.getId()));
+//        }
+//
+//        Второй вариант
+//        for (Event event : events) {
+//            Integer views = viewsCount(event.getId());
+//            event.setViews(views);
+//        }
 
         return events.stream()
                 .map(EventMapper::toFullDto)
@@ -514,4 +530,36 @@ public class EventServiceImpl implements EventService {
     private Specification<Event> paidIs(Boolean paid) {
         return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("paid"), paid);
     }
+
+//    private Map<Long, Integer> viewsCountList(List<Long> eventIds) {
+//        String[] uris = eventIds.stream()
+//                .map(id -> "/events/" + id)
+//                .toArray(String[]::new);
+//
+//        ResponseEntity<StatsDto[]> response = statsClient.get(LocalDateTime.now().minusYears(1),
+//                LocalDateTime.now(),
+//                uris,
+//                true);
+//
+//        Map<Long, Integer> viewsMap = new HashMap<>();
+//
+//        if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+//            Arrays.stream(response.getBody())
+//                    .forEach(statsDto -> {
+//                        Long eventId = parseEventIdFromUri(statsDto.getUri());
+//                        viewsMap.put(eventId, Math.toIntExact(statsDto.getHits()));
+//                    });
+//        }
+//
+//        return viewsMap;
+//    }
+//
+//    private Long parseEventIdFromUri(String uri) {
+//        String[] uriParts = uri.split("/");
+//        if (uriParts.length >= 3) {
+//            return Long.parseLong(uriParts[uriParts.length - 1]);
+//        } else {
+//            throw new IllegalArgumentException("Неверный формат URI для извлечения идентификатора события: " + uri);
+//        }
+//    }
 }

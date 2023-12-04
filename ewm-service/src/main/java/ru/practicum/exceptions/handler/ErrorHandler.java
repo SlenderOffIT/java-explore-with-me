@@ -16,74 +16,19 @@ import java.time.LocalDateTime;
 @RestControllerAdvice
 @Slf4j
 public class ErrorHandler {
-    @ExceptionHandler
+    @ExceptionHandler({UserNotFoundException.class, RequestNotFoundException.class, EventNotFoundException.class,
+            CompilationNotFoundException.class, LocationNotFoundException.class, CategoryNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ApiError handleUserNotFoundException(final UserNotFoundException e) {
-        log.warn("UserNotFoundException!, {}", e.getMessage());
+    public ApiError NotFoundException(final Exception e) {
+        log.warn("{}!, {}", e.getClass().getSimpleName(), e.getMessage());
         return new ApiError(HttpStatus.NOT_FOUND, "The required object was not found.",
                 e.getMessage(), LocalDateTime.now());
     }
 
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ApiError handleRequestNotFoundException(final RequestNotFoundException e) {
-        log.warn("RequestNotFoundException!, {}", e.getMessage());
-        return new ApiError(HttpStatus.NOT_FOUND, "The required object was not found.",
-                e.getMessage(), LocalDateTime.now());
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ApiError handleEventNotFoundException(final EventNotFoundException e) {
-        log.warn("EventNotFoundException!, {}", e.getMessage());
-        return new ApiError(HttpStatus.NOT_FOUND, "The required object was not found.",
-                e.getMessage(), LocalDateTime.now());
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ApiError handleCompilationNotFoundException(final CompilationNotFoundException e) {
-        log.warn("CompilationNotFoundException!, {}", e.getMessage());
-        return new ApiError(HttpStatus.NOT_FOUND, "The required object was not found.",
-                e.getMessage(), LocalDateTime.now());
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ApiError handleCategoryNotFoundException(final CategoryNotFoundException e) {
-        log.warn("CategoryNotFoundException!, {}", e.getMessage());
-        return new ApiError(HttpStatus.NOT_FOUND, "The required object was not found.",
-                e.getMessage(), LocalDateTime.now());
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ApiError handleLocationNotFoundException(final LocationNotFoundException e) {
-        log.warn("CategoryNotFoundException!, {}", e.getMessage());
-        return new ApiError(HttpStatus.NOT_FOUND, "The required object was not found.",
-                e.getMessage(), LocalDateTime.now());
-    }
-
-    @ExceptionHandler
+    @ExceptionHandler({ValidationException.class, ValidationRequestException.class, MethodArgumentNotValidException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiError handleValidationException(final ValidationException e) {
-        log.warn("ValidationException!, {}", e.getMessage());
-        return new ApiError(HttpStatus.BAD_REQUEST, "Incorrectly made request.",
-                e.getMessage(), LocalDateTime.now());
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiError handleValidationRequestException(final ValidationRequestException e) {
-        log.warn("ValidationException!, {}", e.getMessage());
-        return new ApiError(HttpStatus.BAD_REQUEST, "Incorrectly made request.",
-                e.getMessage(), LocalDateTime.now());
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiError handleMethodArgumentNotValidException(final MethodArgumentNotValidException e) {
-        log.warn("MethodArgumentNotValidException!, {}", e.getMessage());
+    public ApiError handleValidationException(final Exception e) {
+        log.warn("{}!, {}", e.getClass().getSimpleName(), e.getMessage());
         return new ApiError(HttpStatus.BAD_REQUEST, "Incorrectly made request.",
                 e.getMessage(), LocalDateTime.now());
     }
