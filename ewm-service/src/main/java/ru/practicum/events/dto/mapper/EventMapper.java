@@ -2,6 +2,7 @@ package ru.practicum.events.dto.mapper;
 
 import lombok.experimental.UtilityClass;
 import ru.practicum.categories.dto.mapper.CategoryMapper;
+import ru.practicum.events.dto.EventComment;
 import ru.practicum.events.dto.EventFullDto;
 import ru.practicum.events.dto.EventShortDto;
 import ru.practicum.events.model.Event;
@@ -47,5 +48,12 @@ public class EventMapper {
             dto.setConfirmedRequests(0);
         }
         return dto;
+    }
+
+    public static EventComment toEventComment(Event event) {
+        return EventComment.builder()
+                .id(event.getId())
+                .title(event.getTitle())
+                .build();
     }
 }

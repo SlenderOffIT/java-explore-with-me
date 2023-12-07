@@ -17,7 +17,8 @@ import java.time.LocalDateTime;
 @Slf4j
 public class ErrorHandler {
     @ExceptionHandler({UserNotFoundException.class, RequestNotFoundException.class, EventNotFoundException.class,
-            CompilationNotFoundException.class, LocationNotFoundException.class, CategoryNotFoundException.class})
+            CompilationNotFoundException.class, LocationNotFoundException.class, CategoryNotFoundException.class,
+            CommentNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ApiError handleNotFoundException(final Exception e) {
         log.warn("{}!, {}", e.getClass().getSimpleName(), e.getMessage());
